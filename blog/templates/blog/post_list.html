@@ -1,10 +1,16 @@
 {% extends 'blog/base.html' %}
 {% block main_area %} <h1>Blog</h1>
 
-<h1>Blog</h1> {% for p in post_list %}
+<h1>post_list 블로그</h1> {% for p in post_list %}
     <hr/>
+    <!-- 블로그 포스트 -->
     <div class ="card mb-4">
-        <img class="card-img-top" src="{{ p.head_image.url }}" alt = "Card image cap">
+        {% if p.head_image %}
+            <img class="card-img-top" src="{{ p.head_image.url }}" alt = "{{ p }} head image">
+        {% else %}
+            <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/400" alt="random_image">
+        {% endif %}
+        <div class="card-body">
     <h2><a href ="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>
     <h4>{{ p.created_at }}</h4>
     <p>{{ p.content | truncatewords:45 }}</p> {% endfor %}
