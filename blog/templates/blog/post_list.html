@@ -1,18 +1,45 @@
 {% extends 'blog/base.html' %}
-{% block main_area %} <h1>Blog</h1>
 
-<h1>post_list 블로그</h1> {% for p in post_list %}
-    <hr/>
-    <!-- 블로그 포스트 -->
-    <div class ="card mb-4">
-        {% if p.head_image %}
-            <img class="card-img-top" src="{{ p.head_image.url }}" alt = "{{ p }} head image">
-        {% else %}
-            <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/400" alt="random_image">
-        {% endif %}
-        <div class="card-body">
-    <h2><a href ="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>
-    <h4>{{ p.created_at }}</h4>
-    <p>{{ p.content | truncatewords:45 }}</p> {% endfor %}
+{% block main_area %}
+    <h1>Paul Kang's Blog</h1>
+    {% if post_list.exists %}
+        {% for p in post_list %}
+        <hr/>
+        <!-- Blog Post -->
+        <div class ="card mb-4">
+            {% if p.head_image %}
+                <img class="card-img-top" src="{{ p.head_image.url }}" alt = "{{ p }} head image">
+            {% else %}
+                <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/400" alt="random_image">
+            {% endif %}
+            <div class="card-body">
+                <h2 class="card-title">{{ p.title }}</h2>
+                {% if p.hook_text %}
+                    <h5 class="text-muted">{{ p.hook_text }}</h5>
+                {% endif %}
+                <p class='card-text'>{{ p.content | truncatewords:45 }}</p>
+                <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+                Posted on {{ p.created_at }} by
+                <a href="#">작성자명</a>
+            </div>
+        </div>
+            <h2><a href ="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>
+            <h4>{{ p.created_at }}</h4>
+            <p>{{ p.content | truncatewords:45 }}</p>
+        {% endfor %}
+    {% else %}
+        <p>게시물 없음!!</p>
+    {% endif %}
 
+    <!-- Pagination -->
+    <ul class="pagination justify-content-center mb-4">
+        <li class="page-item">
+            <a class="page-link" href="#">&larr; 이전</a>
+        </li>
+        <li class="page-item disabled">
+            <a class="page-link" href="#">다음 &rarr;</a>
+        </li>
+    </ul>
 {% endblock %}
