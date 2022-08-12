@@ -1,38 +1,67 @@
 {% extends 'blog/base.html' %}
 
 {% block main_area %}
-    <h1>Paul Kang's Blog</h1>
-    {% if post_list.exists %}
-        {% for p in post_list %}
-        <hr/>
-        <!-- Blog Post -->
-        <div class ="card mb-4">
-            {% if p.head_image %}
-                <img class="card-img-top" src="{{ p.head_image.url }}" alt = "{{ p }} head image">
-            {% else %}
-                <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/400" alt="random_image">
-            {% endif %}
-            <div class="card-body">
-                <h2 class="card-title">{{ p.title }}</h2>
-                {% if p.hook_text %}
-                    <h5 class="text-muted">{{ p.hook_text }}</h5>
-                {% endif %}
-                <p class='card-text'>{{ p.content | truncatewords:45 }}</p>
-                <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-                Posted on {{ p.created_at }} by
-                <a href="#">작성자명</a>
-            </div>
-        </div>
-            <h2><a href ="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>
-            <h4>{{ p.created_at }}</h4>
-            <p>{{ p.content | truncatewords:45 }}</p>
-        {% endfor %}
-    {% else %}
-        <p>게시물 없음!!</p>
+
+<!-- 로그인 했을 때 new post 버튼 나타내기. 최고관리자/스태프만 보임 -->
+    {% if user.is_authenticated %}
+        {% if user.is_superuser or user.is_staff %}
+            <a class="btn btn-info btn-sm float-right" href="/blog/create_post/"
+            role="button"><i class="fas fa-pen"></i>&nbsp;&nbsp;New Post</a>
+        {% endif %}
     {% endif %}
 
+    <h1>Paul Kang's Blog
+        <!-- p.366 카테고리 페이지 미분류 크게 띄우기 -->
+        {% if category %}<span class="badge badge-secondary">{{ category }}</span>{% endif %}
+        {% if tag %}<span class="badge badge-info" style = "float: right"><i class="fas fa-tags"></i>{{ tag }} ({{ tag.post_set.count }})</span>{% endif %}
+    </h1>
+    {% if post_list.exists %}
+
+    {% for p in post_list %}
+    <hr/>
+    <!-- Blog Post -->
+    <div class ="card mb-4" id="post-{{ p.pk }}">
+        {% if p.head_image %}
+            <img class="card-img-top" src="{{ p.head_image.url }}" alt = "{{ p }} head image">
+        {% else %}
+            <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/400" alt="random_image">
+        {% endif %}
+        <div class="card-body">
+            {% if p.category %}
+                <span class="badge badge-secondary float-right">{{ p.category }}</span>
+            {% else %}
+                <span class="badge badge-secondary float-right">미분류</span>
+            {% endif %}
+
+            <h2 class="card-title">{{ p.title }}</h2>
+            {% if p.hook_text %}
+                <h5 class="text-muted">{{ p.hook_text }}</h5>
+            {% endif %}
+            <p class="card-text">{{ p.get_content_markdown | truncatewords_html:45 | safe }}</p>
+
+            {% if p.tags.exists %}
+                <i class="fas fa-tags"></i>
+                {% for tag in p.tags.iterator %}
+                    <a href="{{ tag.get_absolute_url }}"><span class="badge badge-pill badge-light">{{ tag }}</span></a>
+                {% endfor %}
+                <br/>
+                <br/>
+            {% endif %}
+
+            <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+        </div>
+        <div class="card-footer text-muted">
+            Posted on {{ p.created_at }} by
+            <a href="#">{{ p.author | upper }}</a>
+        </div>
+    </div>
+{% endfor %}
+
+    {% else %}
+        <h3>게시물 없음!!</h3>
+    {% endif %}
+
+    
     <!-- Pagination -->
     <ul class="pagination justify-content-center mb-4">
         <li class="page-item">
