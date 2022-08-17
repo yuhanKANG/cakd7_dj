@@ -64,7 +64,7 @@ class Post(models.Model):
         if self.author.socialaccount_set.exists():
             return self.author.socialaccount_set.first().get_avatar_url()
         else:
-            return f'https://doitdjango.com/avatar/id/1242/69e8e839d856a4f9/svg/{self.author.email}'
+            return f'https://doitdjango.com/avatar/id/1242/69e8e839d856a4f9/svg/{self.author.id}'
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -77,7 +77,7 @@ class Comment(models.Model):
         if self.author.socialaccount_set.exists():
             return self.author.socialaccount_set.first().get_avatar_url()
         else:
-            return f'https://doitdjango.com/avatar/id/1242/69e8e839d856a4f9/svg/{self.author.email}'
+            return f'https://doitdjango.com/avatar/id/1242/69e8e839d856a4f9/svg/{self.author.id}'
 
     def __str__(self):
         return f'{self.author}::{self.content}'
