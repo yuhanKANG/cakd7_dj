@@ -22,7 +22,7 @@
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-lg-6 text-light">
-                    <h2 class="mt-5">대문</h2>
+                    <h1 class="mt-5">대문</h1>
                     <p>다음 앱 기획은 뭘로하지?? 무엇이 좋을까....<p>
                 </div>
                 <div class="col-lg-5 mt-5">
@@ -32,6 +32,7 @@
                             <div class="card-body">
                                 <h6><a href="{{ post.get_absolute_url }}" class="text-decoration-none text-dark">{{ post.title }}</a></h6>
                                 <span class="badge badge-pill badge-light float-right">
+                                    <img class="mr-1 rounded-circle" width="20px" src="{{ post.get_avatar_url }}" alt="{{ post.author }}">
                                     {{ post.author.username }}
                                     &nbsp;
                                     &nbsp;
