@@ -1,0 +1,17 @@
+{% extends '../blog/base_full_width.html' %}
+{% comment %} a,b 입력하는 화면 {% endcomment %}
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+
+{% block head_title %}*****{% endblock %}
+
+{% block main_area %}
+    <p>This is inputdata</p >
+    <form action="{% url 'result' %}">
+        a: <input type="text" required name="a"> <br><br>
+        b: <input type="text" required name="b"> <br><br>
+        <input type="submit" name="" value="submit">
+    </form>
+    
+    
+{% endblock %}

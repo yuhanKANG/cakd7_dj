@@ -113,7 +113,7 @@ class CommentUpdate(LoginRequiredMixin, UpdateView):
             return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
-
+# p.518
 class PostSearch(PostList):
     paginate_by = None
 

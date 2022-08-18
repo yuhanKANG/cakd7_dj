@@ -1,0 +1,14 @@
+{% extends '../blog/base_full_width.html' %}
+{% comment %} a,b 입력하는 화면 {% endcomment %}
+
+{% load crispy_forms_tags %}
+
+{% block head_title %}*****{% endblock %}
+
+{% block main_area %}
+    <br>    
+    <h2>☆★결과창★☆</h2>
+    <h3>기입한 수 : {{lis}}</h3>
+    <h3>결과{{ans}}</h3>
+
+{% endblock %}
