@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'blog',
     'single_pages',
     'program',
+    'ml',
 ]
 
 MIDDLEWARE = [

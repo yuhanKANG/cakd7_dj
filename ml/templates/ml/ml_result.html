@@ -1,0 +1,15 @@
+{% extends '../blog/base_full_width.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}결과는~~?{% endblock %}
+
+{% block main_area %}
+    <br>    
+    <h2>당신의 생존은..?</h2>
+    <h3>어떤것들을 넣었니? : {{lis}}</h3>
+    <h3>이 사람은 {{ans}}</h3>
+    <br>
+    <h5>사용 모델 : RandomForestClassifier, 예측률 : 0.83
+
+{% endblock %}
